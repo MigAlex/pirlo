@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "929401815739",
+    "firebase_url": "https://timer-flutter-f7bab.firebaseio.com",
+    "project_id": "timer-flutter-f7bab",
+    "storage_bucket": "timer-flutter-f7bab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929401815739:android:68034860576a6943d45f9e",
+        "android_client_info": {
+          "package_name": "com.example.rep_pirlo_1_dec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929401815739-q6slmbd1srf8c3ldvm5i2473g7fgb4ng.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rep_pirlo_1_dec",
+            "certificate_hash": "2aee026ad83dabf9d28ef5feec442366090e1928"
+          }
+        },
+        {
+          "client_id": "929401815739-opfvlnipoi8fhnn5ks1htkkkr0au43cv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUXOjX3HaGqyNaY7wQ5RZvAwnaG73egp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929401815739-opfvlnipoi8fhnn5ks1htkkkr0au43cv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
