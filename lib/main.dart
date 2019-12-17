@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/landing_page.dart';
+import 'package:rep_pirlo_1_dec/services/auth.dart';
 
 
 void main() {
@@ -14,7 +15,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.indigo,
       ),
-      home: LandingPage(),
+      home: LandingPage(
+        auth: Auth(),
+      ),
     );
   }
 }
