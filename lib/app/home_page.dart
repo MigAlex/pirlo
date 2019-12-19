@@ -3,14 +3,12 @@ import 'package:rep_pirlo_1_dec/services/auth.dart';
 
 
 class HomePage extends StatelessWidget {
-  HomePage({@required this.auth, @required this.onSignOut});
-  final VoidCallback onSignOut;
+  HomePage({@required this.auth});
   final AuthBase auth;
 
   Future<void> _signOut() async { //W139
     try {
       await auth.signOut();
-      onSignOut();
     } catch (e) {
       print(e.toString());
     }

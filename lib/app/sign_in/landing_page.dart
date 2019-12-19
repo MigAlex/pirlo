@@ -3,57 +3,26 @@ import 'package:rep_pirlo_1_dec/app/home_page.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/sign_in_page.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
 
-class LandingPage extends StatefulWidget {
+class LandingPage extends StatelessWidget {
   LandingPage({@required this.auth});
 
   final AuthBase auth;
-  @override
-  _LandingPageState createState() => _LandingPageState();
-}
-
-class _LandingPageState extends State<LandingPage> {
-  User _user;
-
-  @override
-  void initState() {
-    //w141
-    super.initState();
-    _checkCurrentUser();
-    widget.auth.onAuthStateChanged.listen((user) {
-      print('user :${user?.uid}');
-    });
-  }
-
-  Future<void> _checkCurrentUser() async {
-    User user = await widget.auth.currentUser();
-    _updateUser(user);
-  }
-
-  void _updateUser(User user) {
-    setState(() {
-      //W137
-      _user = user;
-    });
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: widget.auth.onAuthStateChanged,
+    return StreamBuilder<User>(
+      stream: auth.onAuthStateChanged,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           User user = snapshot.data;
           if (user == null) {
             return SignInPage(
-              auth: widget.auth,
-              onSignIn: _updateUser, //to samo co (user) => _updateUser(user)
+              auth: auth,
             );
           }
           return HomePage(
-            auth: widget.auth,
-            onSignOut: () => _updateUser(
-                null), //null gdyz nie ma potrzeby wyszczegolniac FirebaseUsera
-          ); // temporary placeholder for HomePage
+            auth: auth,
+          ); 
         } else {
           return Scaffold(
             body: Center(
