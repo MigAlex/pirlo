@@ -18,6 +18,9 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {//w141
     super.initState();
     _checkCurrentUser();
+    widget.auth.onAuthStateChanged.listen((user){
+      print('user :${user?.uid}');
+    });
   }
 
   Future<void> _checkCurrentUser() async{ 

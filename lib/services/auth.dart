@@ -11,6 +11,7 @@ abstract class AuthBase{ //W146
   Future<User> currentUser();
   Future<User> signInAnonymously();
   Future<void> signOut();
+  Stream<User> get onAuthStateChanged;
 }
 
 //W144
@@ -24,7 +25,8 @@ User _userFromFirebase(FirebaseUser user){ //metoda ta konwertuje Firebase objec
   return User(uid: user.uid);
 }
 
-Stream<User> get onAuthStateChanged {
+@override
+Stream<User> get onAuthStateChanged { //ten stream bedzie trzymal tylko dane typu User
   return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
 }
   @override
