@@ -15,15 +15,16 @@ class _LandingPageState extends State<LandingPage> {
   User _user;
 
   @override
-  void initState() {//w141
+  void initState() {
+    //w141
     super.initState();
     _checkCurrentUser();
-    widget.auth.onAuthStateChanged.listen((user){
+    widget.auth.onAuthStateChanged.listen((user) {
       print('user :${user?.uid}');
     });
   }
 
-  Future<void> _checkCurrentUser() async{ 
+  Future<void> _checkCurrentUser() async {
     User user = await widget.auth.currentUser();
     _updateUser(user);
   }
@@ -37,16 +38,30 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_user == null) {
-      return SignInPage(
-        auth: widget.auth,
-        onSignIn: _updateUser, //to samo co (user) => _updateUser(user)
-      );
-    }
-    return HomePage(
-      auth: widget.auth,
-      onSignOut: () => _updateUser(
-          null), //null gdyz nie ma potrzeby wyszczegolniac FirebaseUsera
-    ); // temporary placeholder for HomePage
+    return StreamBuilder(
+      stream: widget.auth.onAuthStateChanged,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          User user = snapshot.data;
+          if (user == null) {
+            return SignInPage(
+              auth: widget.auth,
+              onSignIn: _updateUser, //to samo co (user) => _updateUser(user)
+            );
+          }
+          return HomePage(
+            auth: widget.auth,
+            onSignOut: () => _updateUser(
+                null), //null gdyz nie ma potrzeby wyszczegolniac FirebaseUsera
+          ); // temporary placeholder for HomePage
+        } else {
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
+    );
   }
 }
