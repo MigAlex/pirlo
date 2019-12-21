@@ -8,10 +8,6 @@ class EmailSignInPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Email Sign in'),
         centerTitle: true,
-        leading: Icon(
-          Icons.email,
-          color: Colors.amber,
-        ),
         elevation: 10,
       ),
       body: Padding(
