@@ -17,6 +17,8 @@ abstract class AuthBase {
   Stream<User> get onAuthStateChanged;
   Future<User> signInWithGoogle();
   Future<User> signInWithFacebook();
+  Future<User> signInWithEmailAndPassword(String email, String password);
+  Future<User> createUserWithEmailAndPassword(String email, String password);
 }
 
 //W144
@@ -56,6 +58,17 @@ class Auth implements AuthBase {
     final facebookLogin = FacebookLogin();
     await facebookLogin.logOut();
     await _firebaseAuth.signOut();
+  }
+
+  @override
+  Future<User> signInWithEmailAndPassword(String email, String password) async{
+    final authResult = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+    return _userFromFirebase(authResult.user);
+  }
+    @override
+    Future<User> createUserWithEmailAndPassword(String email, String password) async{
+    final authResult = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+    return _userFromFirebase(authResult.user);
   }
 
   @override

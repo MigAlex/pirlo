@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/form_submit_button.dart';
+import 'package:rep_pirlo_1_dec/services/auth.dart';
 
 enum EmailSignInFormType { signIn, register }
 
 class EmailSignInForm extends StatefulWidget {
+  EmailSignInForm({@required this.auth});
+  final AuthBase auth;
   @override
   _EmailSignInFormState createState() => _EmailSignInFormState();
 }
 
 class _EmailSignInFormState extends State<EmailSignInForm> {
+ 
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   EmailSignInFormType _formType = EmailSignInFormType.signIn;
