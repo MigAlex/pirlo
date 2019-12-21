@@ -1,20 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/form_submit_button.dart';
 
-class EmailSignInForm extends StatelessWidget {
+enum EmailSignInFormType { signIn, register }
+
+class EmailSignInForm extends StatefulWidget {
+  @override
+  _EmailSignInFormState createState() => _EmailSignInFormState();
+}
+
+class _EmailSignInFormState extends State<EmailSignInForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  EmailSignInFormType _formType = EmailSignInFormType.signIn;
 
-  void _submit(){
-    print('email: ${_emailController.text}, password: ${_passwordController.text}');
+  void _submit() {
+    print(
+        'email: ${_emailController.text}, password: ${_passwordController.text}');
   }
+
+  void _toggleFormType() { //przełączenie rodzaju formularza
+    setState(() {
+      _formType = _formType == EmailSignInFormType.signIn
+          ? EmailSignInFormType.register
+          : EmailSignInFormType.signIn;
+    });
+    _emailController.clear();
+    _passwordController.clear();
+  }
+
   List<Widget> _buildChildren() {
+    final primaryText = _formType == EmailSignInFormType.signIn
+        ? 'Sign in'
+        : 'Create an account';
+    final secondaryText = _formType == EmailSignInFormType.signIn
+        ? 'Need an account? Register!'
+        : 'Have an account? Sign in';
     return [
       TextField(
         controller: _emailController,
         decoration:
             InputDecoration(labelText: 'Email', hintText: 'Elo@gmail.com'),
-
       ),
       SizedBox(
         height: 8,
@@ -27,16 +52,16 @@ class EmailSignInForm extends StatelessWidget {
       SizedBox(
         height: 8,
       ),
-      RaisedButton(
-        child: Text('Sign in'),
+      FormSubmitButton(
+        text: primaryText,
         onPressed: _submit,
       ),
       SizedBox(
         height: 8,
       ),
-      FormSubmitButton(
-        text: 'Sign In',
-        onPressed: () {},
+      FlatButton(
+        child: Text(secondaryText),
+        onPressed: _toggleFormType,
       )
     ];
   }
