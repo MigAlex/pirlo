@@ -32,6 +32,10 @@ class SignInPage extends StatelessWidget {
     }
   }
 
+  void _signInWithEmail(BuildContext context){
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +48,12 @@ class SignInPage extends StatelessWidget {
         ),
         elevation: 10,
       ),
-      body: _buildContent(),
+      body: _buildContent(context),
       backgroundColor: Colors.grey[200],
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(BuildContext context) {
     //bezpieczniej dac metode jako Widget zamiast Container
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -89,7 +93,7 @@ class SignInPage extends StatelessWidget {
             text: 'Sign in with email',
             textColor: Colors.white,
             color: Colors.teal[500],
-            onPressed: () {},
+            onPressed: () => _signInWithEmail(context),
           ),
           SizedBox(
             height: 8,
