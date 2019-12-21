@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rep_pirlo_1_dec/app/sign_in/email_sign_in_form.dart';
 
 class EmailSignInPage extends StatelessWidget {
   @override
@@ -13,12 +14,11 @@ class EmailSignInPage extends StatelessWidget {
         ),
         elevation: 10,
       ),
-      body: _buildContent(),
-            backgroundColor: Colors.grey[200],
-          );
-        }
-      
-       Widget _buildContent() {
-          return Container();
-        }
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Card(child: EmailSignInForm()),
+      ),
+      backgroundColor: Colors.grey[200],
+    );
+  }
 }
