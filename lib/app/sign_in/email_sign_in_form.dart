@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rep_pirlo_1_dec/app/custom_widgets/form_submit_button.dart';
 
 class EmailSignInForm extends StatelessWidget {
   List<Widget> _buildChildren() {
@@ -24,8 +25,8 @@ class EmailSignInForm extends StatelessWidget {
       SizedBox(
         height: 8,
       ),
-      FlatButton(
-        child: Text('Need an account? Register!'),
+      FormSubmitButton(
+        text: 'Sign In',
         onPressed: () {},
       )
     ];
