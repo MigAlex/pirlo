@@ -52,7 +52,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
                   FlatButton(
                     child: Text('Ok'),
                     onPressed: () => Navigator.of(context).pop(),
-                  )
+                  ),
                 ],
               );
             });
