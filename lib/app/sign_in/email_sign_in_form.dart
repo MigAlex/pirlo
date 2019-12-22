@@ -1,10 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/form_submit_button.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_alert_dialog.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/validators.dart';
-import 'package:rep_pirlo_1_dec/services/auth_provider.dart';
+import 'package:rep_pirlo_1_dec/services/auth.dart';
 
 enum EmailSignInFormType { signIn, register }
 
@@ -33,17 +33,17 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       _isLoading = true;
     });
     try {
-      final auth = AuthProvider.of(context);
+      final auth = Provider.of<AuthBase>(context);
       if (_formType == EmailSignInFormType.signIn) {
         await auth.signInWithEmailAndPassword(_email, _password);
       } else {
         await auth.createUserWithEmailAndPassword(_email, _password);
       }
       Navigator.of(context).pop();
-    } catch (e) {
+    } on PlatformException catch (e) {
       PlatformAlertDialog(
         title: 'Sign in failed',
-        content: e.toString(),
+        content: e.message,
         defaultActionText: 'Ok',
       ).show(context);
     } finally {
