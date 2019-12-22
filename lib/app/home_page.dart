@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_alert_dialog.dart';
-import 'package:rep_pirlo_1_dec/services/auth.dart';
+import 'package:rep_pirlo_1_dec/services/auth_provider.dart';
 
 
 class HomePage extends StatelessWidget {
-  HomePage({@required this.auth});
-  final AuthBase auth;
 
-  Future<void> _signOut() async { //W139
+  Future<void> _signOut(BuildContext context) async { 
     try {
+      final auth = AuthProvider.of(context);
       await auth.signOut();
     } catch (e) {
       print(e.toString());
@@ -24,7 +23,7 @@ class HomePage extends StatelessWidget {
     ).show(context);
 
     if(didRequestSignOut == true){
-      _signOut();
+      _signOut(context);
     }
   }
 

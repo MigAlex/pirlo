@@ -2,27 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:rep_pirlo_1_dec/app/home_page.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/sign_in_page.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
+import 'package:rep_pirlo_1_dec/services/auth_provider.dart';
 
 class LandingPage extends StatelessWidget {
-  LandingPage({@required this.auth});
-
-  final AuthBase auth;
- 
   @override
   Widget build(BuildContext context) {
+    final auth = AuthProvider.of(context);
     return StreamBuilder<User>(
       stream: auth.onAuthStateChanged,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) { //to informuje nas czy dostalismy pierwsza dane jako stream
+        if (snapshot.connectionState == ConnectionState.active) {
+          //to informuje nas czy dostalismy pierwsza dane jako stream
           User user = snapshot.data;
           if (user == null) {
-            return SignInPage(
-              auth: auth,
-            );
+            return SignInPage();
           }
-          return HomePage(
-            auth: auth,
-          ); 
+          return HomePage();
         } else {
           return Scaffold(
             body: Center(

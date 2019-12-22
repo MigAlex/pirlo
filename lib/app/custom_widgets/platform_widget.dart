@@ -8,9 +8,9 @@ abstract class PlatformWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(Platform.isIOS){
-     return buildCupertinoWidget(context); 
-    } 
+    if (Platform.isIOS) {
+      return buildCupertinoWidget(context);
+    }
     return buildMaterialWidget(context);
   }
 }
