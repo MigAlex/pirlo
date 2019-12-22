@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/form_submit_button.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/validators.dart';
@@ -37,22 +39,24 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       }
       Navigator.of(context).pop();
     } catch (e) {
-      print(e.toString());
-      showDialog(
-        context: context,
-        builder: (context){
-          return AlertDialog(
-            title: Text('Sign in failed'),
-            content: Text(e.toString()),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Ok'),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          );
-        }
-      );
+      if (Platform.isIOS) {
+        print('show CupertinoAlertDialog');
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Sign in failed'),
+                content: Text(e.toString()),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Ok'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  )
+                ],
+              );
+            });
+      }
     } finally {
       setState(() {
         _isLoading = false;
@@ -62,7 +66,8 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
 
   void _emailEditingComplete() {
     final newFocus = widget.emailValidator.isValid(_email)
-    ? _passwordFocusNode : _emailFocusNode;
+        ? _passwordFocusNode
+        : _emailFocusNode;
     FocusScope.of(context).requestFocus(newFocus);
   }
 
@@ -87,7 +92,8 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         : 'Have an account? Sign in';
 
     bool submitEnabled = widget.emailValidator.isValid(_email) &&
-        widget.passwordValidator.isValid(_password) && !_isLoading;
+        widget.passwordValidator.isValid(_password) &&
+        !_isLoading;
 
     return [
       _buildEmailTextField(),
