@@ -47,7 +47,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
             actions: <Widget>[
               FlatButton(
                 child: Text('Ok'),
-                onPressed: (){},
+                onPressed: () => Navigator.of(context).pop(),
               )
             ],
           );
