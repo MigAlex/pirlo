@@ -37,7 +37,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     }
   }
 
-  void _emailEditingComplete(){
+  void _emailEditingComplete() {
     FocusScope.of(context).requestFocus(_passwordFocusNode);
   }
 
@@ -60,8 +60,9 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
         ? 'Need an account? Register!'
         : 'Have an account? Sign in';
 
-    bool submitEnabled = widget.emailValidator.isValid(_email) && widget.passwordValidator.isValid(_password);
-      
+    bool submitEnabled = widget.emailValidator.isValid(_email) &&
+        widget.passwordValidator.isValid(_password);
+
     return [
       _buildEmailTextField(),
       SizedBox(
@@ -98,34 +99,37 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
   }
 
   Widget _buildEmailTextField() {
+    bool emailValid = widget.emailValidator.isValid(_email);
     return TextField(
       controller: _emailController,
       focusNode: _emailFocusNode,
-      decoration:
-          InputDecoration(labelText: 'Email', hintText: 'Elo@gmail.com'),
+      decoration: InputDecoration(
+          labelText: 'Email',
+          hintText: 'Elo@gmail.com',
+          errorText: emailValid ? null : widget.invalidEmailErrorText),
       autocorrect: false,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       onChanged: (email) => _updateState(),
       onEditingComplete: _emailEditingComplete,
-          );
-        }
-      
-        Widget _buildPasswordTextField() {
-          return TextField(
-            controller: _passwordController,
-            focusNode: _passwordFocusNode,
-            decoration: InputDecoration(labelText: 'Password'),
-            obscureText: true,
-            textInputAction: TextInputAction.done,
-            onChanged: (password) => _updateState(),
-            onEditingComplete: _submit,
-          );
-        }
-      
-        void _updateState() {
-          print('email: $_email, password: $_password');
-          setState(() {
-          });
-        }
+    );
+  }
+
+  Widget _buildPasswordTextField() {
+    bool passwordValid = widget.passwordValidator.isValid(_password);
+    return TextField(
+      controller: _passwordController,
+      focusNode: _passwordFocusNode,
+      decoration: InputDecoration(labelText: 'Password', errorText: passwordValid ? null : widget.invalidPasswordErrorText,),
+      obscureText: true,
+      textInputAction: TextInputAction.done,
+      onChanged: (password) => _updateState(),
+      onEditingComplete: _submit,
+    );
+  }
+
+  void _updateState() {
+    print('email: $_email, password: $_password');
+    setState(() {});
+  }
 }

@@ -14,5 +14,7 @@ class NonEmptyStringValidator implements StringValidator {
 class EmailAndPasswordValidators{
   final StringValidator emailValidator = NonEmptyStringValidator();
   final StringValidator passwordValidator = NonEmptyStringValidator();
+  final String invalidEmailErrorText = 'You cannot leave this field empty';
+  final String invalidPasswordErrorText = 'You cannot leave this field empty';
 
 }
