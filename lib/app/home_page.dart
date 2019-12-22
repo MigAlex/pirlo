@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_alert_dialog.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
 
 
@@ -14,6 +15,18 @@ class HomePage extends StatelessWidget {
     }
   }
 
+  Future<void> _confirmSignOut(BuildContext context) async{
+    final didRequestSignOut = await PlatformAlertDialog(
+      title: 'Log Out',
+      content: 'Are you sure?',
+      defaultActionText: 'Log Out',
+    ).show(context);
+
+    if(didRequestSignOut == true){
+      _signOut();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +38,7 @@ class HomePage extends StatelessWidget {
               'Log out',
               style: TextStyle(fontSize: 18, color: Colors.white),
             ),
-            onPressed: _signOut,
+            onPressed: () => _confirmSignOut(context),
           )
         ],
       ),
