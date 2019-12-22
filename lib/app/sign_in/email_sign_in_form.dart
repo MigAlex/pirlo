@@ -58,6 +58,8 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
     final secondaryText = _formType == EmailSignInFormType.signIn
         ? 'Need an account? Register!'
         : 'Have an account? Sign in';
+
+    bool submitEnabled = _email.isNotEmpty && _password.isNotEmpty;    
     return [
       _buildEmailTextField(),
       SizedBox(
@@ -69,7 +71,7 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       ),
       FormSubmitButton(
         text: primaryText,
-        onPressed: _submit,
+        onPressed: submitEnabled ? _submit : null,
       ),
       SizedBox(
         height: 8,
@@ -102,18 +104,26 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       autocorrect: false,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
+      onChanged: (email) => _updateState(),
       onEditingComplete: _emailEditingComplete,
-    );
-  }
-
-  Widget _buildPasswordTextField() {
-    return TextField(
-      controller: _passwordController,
-      focusNode: _passwordFocusNode,
-      decoration: InputDecoration(labelText: 'Password'),
-      obscureText: true,
-      textInputAction: TextInputAction.done,
-      onEditingComplete: _submit,
-    );
-  }
+          );
+        }
+      
+        Widget _buildPasswordTextField() {
+          return TextField(
+            controller: _passwordController,
+            focusNode: _passwordFocusNode,
+            decoration: InputDecoration(labelText: 'Password'),
+            obscureText: true,
+            textInputAction: TextInputAction.done,
+            onChanged: (password) => _updateState(),
+            onEditingComplete: _submit,
+          );
+        }
+      
+        void _updateState() {
+          print('email: $_email, password: $_password');
+          setState(() {
+          });
+        }
 }
