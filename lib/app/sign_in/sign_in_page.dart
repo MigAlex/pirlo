@@ -9,12 +9,13 @@ import 'package:rep_pirlo_1_dec/app/sign_in/social_sign_in_button.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
 
 class SignInPage extends StatefulWidget {
-  static Widget create(BuildContext context){
+  static Widget create(BuildContext context) {
     return Provider<SignInBloc>(
       create: (_) => SignInBloc(),
       child: SignInPage(),
     );
   }
+
   @override
   _SignInPageState createState() => _SignInPageState();
 }
@@ -78,6 +79,7 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = Provider.of<SignInBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Time tracker'),
@@ -88,12 +90,17 @@ class _SignInPageState extends State<SignInPage> {
         ),
         elevation: 10,
       ),
-      body: _buildContent(context),
+      body: StreamBuilder<bool>(
+          stream: bloc.isLoadingStream,
+          initialData: false,
+          builder: (context, snapshot) {
+            return _buildContent(context, snapshot.data);
+          }),
       backgroundColor: Colors.grey[200],
     );
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget _buildContent(BuildContext context, bool isLoading) {
     //bezpieczniej dac metode jako Widget zamiast Container
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -101,7 +108,10 @@ class _SignInPageState extends State<SignInPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SizedBox(height: 50, child: _buildHeader(),),
+          SizedBox(
+            height: 50,
+            child: _buildHeader(),
+          ),
           SizedBox(
             height: 18,
           ),
