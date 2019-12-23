@@ -7,7 +7,14 @@ import 'package:rep_pirlo_1_dec/app/sign_in/sign_in_button.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/social_sign_in_button.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  bool _isLoading = false;
+
   void _showSignInError(BuildContext context, PlatformException exception) {
     PlatformExceptionAlertDialog(
       title: 'Sign in Failed',
@@ -17,32 +24,41 @@ class SignInPage extends StatelessWidget {
 
   Future<void> _signInAnonymously(BuildContext context) async {
     try {
+      setState(() => _isLoading = true);
       final auth = Provider.of<AuthBase>(context);
       await auth.signInAnonymously();
     } on PlatformException catch (e) {
       _showSignInError(context, e);
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
     try {
+      setState(() => _isLoading = true);
       final auth = Provider.of<AuthBase>(context);
       await auth.signInWithGoogle();
     } on PlatformException catch (e) {
       if (e.code != 'ERROR_ABORTED_BY_USER') {
         _showSignInError(context, e);
       }
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
   Future<void> _signInWithFacebook(BuildContext context) async {
     try {
+      setState(() => _isLoading = true);
       final auth = Provider.of<AuthBase>(context);
       await auth.signInWithFacebook();
     } on PlatformException catch (e) {
       if (e.code != 'ERROR_ABORTED_BY_USER') {
         _showSignInError(context, e);
       }
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
