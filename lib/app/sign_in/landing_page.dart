@@ -16,7 +16,7 @@ class LandingPage extends StatelessWidget {
           //to informuje nas czy dostalismy pierwsza dane jako stream
           User user = snapshot.data;
           if (user == null) {
-            return SignInPage();
+            return SignInPage.create(context);
           }
           return HomePage();
         } else {

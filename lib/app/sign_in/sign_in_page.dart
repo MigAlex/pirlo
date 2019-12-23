@@ -3,11 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_exception_alert_dialog.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/email_sign_in_page.dart';
+import 'package:rep_pirlo_1_dec/app/sign_in/sign_in_bloc.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/sign_in_button.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/social_sign_in_button.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
 
 class SignInPage extends StatefulWidget {
+  static Widget create(BuildContext context){
+    return Provider<SignInBloc>(
+      create: (_) => SignInBloc(),
+      child: SignInPage(),
+    );
+  }
   @override
   _SignInPageState createState() => _SignInPageState();
 }
