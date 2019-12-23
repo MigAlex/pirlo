@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/form_submit_button.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_alert_dialog.dart';
+import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_exception_alert_dialog.dart';
 import 'package:rep_pirlo_1_dec/app/sign_in/validators.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
 
@@ -41,10 +42,9 @@ class _EmailSignInFormState extends State<EmailSignInForm> {
       }
       Navigator.of(context).pop();
     } on PlatformException catch (e) {
-      PlatformAlertDialog(
+      PlatformExceptionAlertDialog(
         title: 'Sign in failed',
-        content: e.message,
-        defaultActionText: 'Ok',
+        exception: e,
       ).show(context);
     } finally {
       setState(() {
