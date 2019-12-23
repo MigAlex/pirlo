@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rep_pirlo_1_dec/app/sign_in/email_sign_in_form.dart';
+import 'package:rep_pirlo_1_dec/app/sign_in/email_sign_in_form_stateful.dart';
 
 class EmailSignInPage extends StatelessWidget {
   @override
@@ -13,7 +13,7 @@ class EmailSignInPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Card(child: EmailSignInForm()),
+          child: Card(child: EmailSignInFormStateful()),
         ),
       ),
       backgroundColor: Colors.grey[200],
