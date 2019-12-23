@@ -9,10 +9,15 @@ import 'package:rep_pirlo_1_dec/app/sign_in/social_sign_in_button.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
 
 class SignInPage extends StatelessWidget {
+  const SignInPage({Key key, @required this.bloc}) : super(key: key);
+  final SignInBloc bloc;
+
   static Widget create(BuildContext context) {
     return Provider<SignInBloc>(
       create: (_) => SignInBloc(),
-      child: SignInPage(),
+      child: Consumer<SignInBloc>(
+        builder: (context, bloc, _) => SignInPage(bloc: bloc),
+      ),
     );
   }
 
@@ -24,7 +29,6 @@ class SignInPage extends StatelessWidget {
   }
 
   Future<void> _signInAnonymously(BuildContext context) async {
-    final bloc = Provider.of<SignInBloc>(context);
     try {
       bloc.setIsLoading(true);
       final auth = Provider.of<AuthBase>(context);
@@ -37,7 +41,6 @@ class SignInPage extends StatelessWidget {
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
-    final bloc = Provider.of<SignInBloc>(context);
     try {
       bloc.setIsLoading(true);
       final auth = Provider.of<AuthBase>(context);
@@ -52,7 +55,6 @@ class SignInPage extends StatelessWidget {
   }
 
   Future<void> _signInWithFacebook(BuildContext context) async {
-    final bloc = Provider.of<SignInBloc>(context);
     try {
       bloc.setIsLoading(true);
       final auth = Provider.of<AuthBase>(context);
@@ -75,7 +77,6 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = Provider.of<SignInBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Time tracker'),
