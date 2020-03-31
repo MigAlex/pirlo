@@ -71,13 +71,8 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Time tracker'),
-        centerTitle: true,
-        leading: Icon(
-          Icons.timer,
-          color: Colors.amber,
-        ),
-        elevation: 10,
+        title: Text('Time Tracker'),
+        elevation: 2.0,
       ),
       body: StreamBuilder<bool>(
           stream: bloc.isLoadingStream,
@@ -150,7 +145,10 @@ class SignInPage extends StatelessWidget {
     return Text(
       'Sign in',
       textAlign: TextAlign.center,
-      style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
+      style: TextStyle(
+        fontSize: 32.0,
+        fontWeight: FontWeight.w600,
+      ),
     );
   }
 }

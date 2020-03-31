@@ -21,7 +21,7 @@ class SocialSignInButton extends CustomRaisedButton {
                 text,
                 style: TextStyle(color: textColor, fontSize: 15.0),
               ),
-              Opacity(      //opacity makes widget invisible
+              Opacity(
                 opacity: 0.0,
                 child: Image.asset(assetName),
               ),
@@ -31,4 +31,3 @@ class SocialSignInButton extends CustomRaisedButton {
           onPressed: onPressed,
         );
 }
-
