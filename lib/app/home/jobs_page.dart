@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_alert_dialog.dart';
+import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_exception_alert_dialog.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
 import 'package:rep_pirlo_1_dec/services/database.dart';
 
@@ -29,9 +31,14 @@ class JobsPage extends StatelessWidget {
     }
   }
 
-  Future <void> _createJob(BuildContext context) async{
-    final database = Provider.of<Database>(context);
-    await database.createJob(Job(name: 'Blogging', ratePerHour: 10));
+  Future<void> _createJob(BuildContext context) async {
+    try {
+      final database = Provider.of<Database>(context);
+      await database.createJob(Job(name: 'Blogging', ratePerHour: 10));
+    } on PlatformException catch (e) {
+      PlatformExceptionAlertDialog(title: 'Operation failed', exception: e)
+          .show(context);
+    }
   }
 
   @override
@@ -55,5 +62,4 @@ class JobsPage extends StatelessWidget {
       ),
     );
   }
-
 }
