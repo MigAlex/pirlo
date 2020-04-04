@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AddJobPage extends StatefulWidget {
-  static Future<void> show(BuildContext context) async{
-    await Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => AddJobPage(),
+  static Future<void> show(BuildContext context) async {
+    await Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => AddJobPage(),
       fullscreenDialog: true,
-      )
-    );
+    ));
   }
 
   @override
@@ -21,6 +20,44 @@ class _AddJobPageState extends State<AddJobPage> {
         elevation: 2,
         title: Text('New Job'),
       ),
+      body: _buildContents(),
+      backgroundColor: Colors.grey[200],
     );
+  }
+
+  Widget _buildContents() {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: _buildForm(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForm() {
+    return Form(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: _buildFormChildren(),
+      ),
+    );
+  }
+
+  List<Widget> _buildFormChildren() {
+    return [
+      TextFormField(
+        decoration: InputDecoration(labelText: 'Job Name'),
+      ),
+      TextField(
+        decoration: InputDecoration(labelText: 'Rate per hour'),
+        keyboardType:
+            TextInputType.numberWithOptions(signed: false, decimal: false),
+      )
+    ];
   }
 }
