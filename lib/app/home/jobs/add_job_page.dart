@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_alert_dialog.dart';
+import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_exception_alert_dialog.dart';
+import 'package:rep_pirlo_1_dec/app/home/models/job.dart';
+import 'package:rep_pirlo_1_dec/services/database.dart';
+import 'package:flutter/services.dart';
 
 class AddJobPage extends StatefulWidget {
+  final Database database;
+
+  const AddJobPage({Key key, @required this.database}) : super(key: key);
   static Future<void> show(BuildContext context) async {
+    final database = Provider.of<Database>(context);
     await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => AddJobPage(),
+      builder: (context) => AddJobPage(database: database),
       fullscreenDialog: true,
     ));
   }
@@ -18,17 +28,36 @@ class _AddJobPageState extends State<AddJobPage> {
   String _name;
   int _ratePerHour;
 
-  bool _validateAndSaveForm(){
+  bool _validateAndSaveForm() {
     final form = _formKey.currentState;
-    if(form.validate()){
+    if (form.validate()) {
       form.save();
       return true;
     }
     return false;
   }
-  void _submit() {
-    if(_validateAndSaveForm()){
-      print('form saved: $_name, $_ratePerHour');
+
+  Future<void> _submit() async {
+    if (_validateAndSaveForm()) {
+      try {
+        final jobs = await widget.database.jobsStream().first;
+        final allNames = jobs.map((job) => job.name).toList();
+        if (allNames.contains(_name)) {
+          PlatformAlertDialog(
+            title: 'Name already used',
+            content: 'Choose different job name',
+            defaultActionText: 'Ok',
+          ).show(context);
+        }
+        final job = Job(name: _name, ratePerHour: _ratePerHour);
+        await widget.database.createJob(job);
+        Navigator.pop(context);
+      } on PlatformException catch (e) {
+        PlatformExceptionAlertDialog(
+          title: 'Operation failed',
+          exception: e,
+        ).show(context);
+      }
     }
   }
 
@@ -82,8 +111,8 @@ class _AddJobPageState extends State<AddJobPage> {
         validator: (value) => value.isNotEmpty ? null : 'Name cannot be empty',
       ),
       TextFormField(
-        decoration:  InputDecoration(labelText: 'Rate per hour'),
-        onSaved: (value) => _ratePerHour = int.tryParse(value),
+        decoration: InputDecoration(labelText: 'Rate per hour'),
+        onSaved: (value) => _ratePerHour = int.tryParse(value) ?? 0,
         keyboardType:
             TextInputType.numberWithOptions(signed: false, decimal: false),
       ),
