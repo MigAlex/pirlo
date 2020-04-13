@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_alert_dialog.dart';
+import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_exception_alert_dialog.dart';
 
 import 'package:rep_pirlo_1_dec/app/home/jobs/edit_job_page.dart';
-import 'package:rep_pirlo_1_dec/app/home/jobs/empty_content.dart';
 import 'package:rep_pirlo_1_dec/app/home/jobs/job_list_tile.dart';
 import 'package:rep_pirlo_1_dec/app/home/jobs/list_items_builder.dart';
 import 'package:rep_pirlo_1_dec/app/home/models/job.dart';
@@ -30,6 +31,17 @@ class JobsPage extends StatelessWidget {
 
     if (didRequestSignOut == true) {
       _signOut(context);
+    }
+  }
+
+  Future<void> _delete(BuildContext context, Job job,
+      {JobsListTile child}) async {
+    try {
+      final database = Provider.of<Database>(context);
+      await database.deleteJob(job);
+    } on PlatformException catch (e) {
+      PlatformExceptionAlertDialog(title: 'Operation failed', exception: e)
+          .show(context);
     }
   }
 
@@ -63,9 +75,15 @@ class JobsPage extends StatelessWidget {
         builder: (context, snapshot) {
           return ListItemBuilder<Job>(
             snapshot: snapshot,
-            itemBuilder: (context, job) => JobsListTile(
-              job: job,
-              onTap: () => EditJobPage.show(context, job: job),
+            itemBuilder: (context, job) => Dismissible(
+              key: Key('job-${job.id}'),
+              background: Container(color: Colors.red),
+              direction: DismissDirection.endToStart,
+              onDismissed: (direction) => _delete(context, job),
+              child: JobsListTile(
+                job: job,
+                onTap: () => EditJobPage.show(context, job: job),
+              ),
             ),
           );
         });
