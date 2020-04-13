@@ -4,6 +4,7 @@ import 'package:rep_pirlo_1_dec/app/custom_widgets/platform_alert_dialog.dart';
 
 
 import 'package:rep_pirlo_1_dec/app/home/jobs/edit_job_page.dart';
+import 'package:rep_pirlo_1_dec/app/home/jobs/empty_content.dart';
 import 'package:rep_pirlo_1_dec/app/home/jobs/job_list_tile.dart';
 import 'package:rep_pirlo_1_dec/app/home/models/job.dart';
 import 'package:rep_pirlo_1_dec/services/auth.dart';
@@ -62,6 +63,7 @@ class JobsPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final jobs = snapshot.data;
+            if(jobs.isNotEmpty){
             final children = jobs
                 .map((job) => JobsListTile(
                       job: job,
@@ -69,6 +71,8 @@ class JobsPage extends StatelessWidget {
                     ))
                 .toList();
             return ListView(children: children);
+          }
+          return EmptyContent();
           }
           if (snapshot.hasError) {
             return Center(
