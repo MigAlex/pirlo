@@ -4,6 +4,7 @@ import 'package:rep_pirlo_1_dec/services/api_path.dart';
 import 'package:rep_pirlo_1_dec/services/firestore_service.dart';
 
 abstract class Database {
+  Future<void> deleteJob(Job job);
   Future<void> setJob(Job job);
   Stream<List<Job>> jobsStream();
 }
@@ -17,8 +18,12 @@ class FirestoreDatabase implements Database {
 
   final _service = FireStoreService.instance;
 
+  @override
   Future<void> setJob(Job job) async => await _service.setData(
       path: APIPath.job(uid, job.id), data: job.toMap());
+
+  @override
+  Future<void> deleteJob(Job job) async => await _service.deleteData(path: APIPath.job(uid, job.id));
 
   Stream<List<Job>> jobsStream() => _service.collectionStream(
       path: APIPath.jobs(uid), builder: (data, documentId) => Job.fromMap(data, documentId));
